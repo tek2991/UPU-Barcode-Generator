@@ -8,6 +8,7 @@
 <script language="javascript">
 var services = {
 	'China Post':['CN',['RH','RS']],
+	'India': ['IN', ['ES', 'RS', 'CS']],
 	'USPS':['US',['RA','EA']],
 	'ePacket':['CN',['LM']],
 };
@@ -353,8 +354,30 @@ function generate() {
 	var n = parseInt(document.getElementById("n").value);
 	var cc = document.getElementById("cc").value;
 	var si = document.getElementById("si").value;
+	var sf = document.getElementById("sf").value;
+	var sn = false;
+	if (sf) {
+		if (sf.length == 8) {
+			sn = sf
+		} else {
+			alert("8 digits for starting barcode")
+			return
+		}
 	var s = '';
-	for (var i=0; i<n; i++) s += si + gen_fake_serial() + cc + '\n';
+	if (!sn) {
+		for (var i = 0; i < n; i++) {
+			s += si + gen_fake_serial() + cc + '\n'
+		};
+	}else{
+		var serial = sn
+		for (var i = 0; i < n; i++) {
+			var str_serial = serial.toString()
+			var sum = csum(str_serial)
+			var code = str_serial + sum
+			s += si + code + cc + '\n'
+			serial = parseInt(serial) + 1
+		};
+	}
 	document.getElementById("textarea").value = s;
 }
 
@@ -401,6 +424,7 @@ function load() {
       Service: <select class="w3-select" id="services" onchange="select()"></select>
       Country Code: <input class="w3-input" id="cc" type="text" value="US" size=2/>
       Service Indicator: <input class="w3-input" id="si" type="text" value="RA" size=2/>
+      Start from (first 8 digits): <input class="w3-input" id="sf" type="number" size=2 />
       Quantity: <input class="w3-input" id="n" type="text" value="10" size=3/>
       <p><button class="w3-btn w3-block w3-red" onclick="generate()">Generate</button></p>
       <p><button class="w3-btn w3-block w3-blue" onclick="verify()">Verify</button></p>
