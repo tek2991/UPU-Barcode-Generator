@@ -324,7 +324,7 @@ function digits(num, count = 0){
 };
 
 function getZeros(count = 0){
-	if(count < 0) return '';
+	if(count <= 0) return '';
 	let zeros = '';
 	for(let i = 0; i < count; i++){
 		zeros += '0';
