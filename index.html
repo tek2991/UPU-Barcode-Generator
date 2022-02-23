@@ -316,6 +316,13 @@ function gen_fake_serial() {
 	return s + csum(s);
 }
 
+function digits(num, count = 0){
+   if(num){
+      return digits(Math.floor(num / 10), ++count);
+   };
+   return count;
+};
+
 function verify() {
 	var lines = document.getElementById("textarea").value.split('\n');
 	var out = '';
@@ -377,6 +384,7 @@ function generate() {
 			var code = str_serial + sum
 			s += si + code + cc + '\n'
 			serial = parseInt(serial) + 1
+			digits(serial) < 8 ? serial = '0' + serial.toString() : serial.toString()
 		};
 	}
 	document.getElementById("textarea").value = s;
