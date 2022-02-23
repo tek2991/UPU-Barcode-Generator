@@ -323,6 +323,15 @@ function digits(num, count = 0){
    return count;
 };
 
+function getZeros(count = 0){
+	if(count < 0) return '';
+	let zeros = '';
+	for(let i = 0; i < count; i++){
+		zeros += '0';
+	}
+	return zeros;
+}
+
 function verify() {
 	var lines = document.getElementById("textarea").value.split('\n');
 	var out = '';
@@ -384,7 +393,7 @@ function generate() {
 			var code = str_serial + sum
 			s += si + code + cc + '\n'
 			serial = parseInt(serial) + 1
-			digits(serial) < 8 ? serial = '0' + serial.toString() : serial.toString()
+			digits(serial) < 8 ? serial = getZeros(8 - digits(serial)) + serial.toString() : serial.toString()
 		};
 	}
 	document.getElementById("textarea").value = s;
